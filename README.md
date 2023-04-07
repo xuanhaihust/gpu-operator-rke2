@@ -4,7 +4,7 @@ Install GPU-operator docs from Nvidia: https://docs.nvidia.com/datacenter/cloud-
 
 ## Guide:
 ### Step 1: Install K8s Cluster with RKE2 using install-rke-guide.docx or Rancher, or follow [official guide](https://ranchermanager.docs.rancher.com/v2.5/how-to-guides/new-user-guides/kubernetes-cluster-setup/rke2-for-rancher)
-### Step 2: Create containerd GPU config file `/var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl` on each nodes
+### Step 2: Create containerd GPU config file `/var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl` on each node
 ```
 version = 2
 [plugins]
