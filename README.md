@@ -26,7 +26,8 @@ version = 2
 Then restart rke2 on all nodes 
   + master node: `systemctl restart rke2-server.service`
   + worker node: `systemctl restart rke2-agent.service`
-### Step 3: run this command to install GPU Operator:
+### Step 3: 
+Run this command to install GPU Operator:
 
 ```helm install -n gpu-operator --create-namespace \
   nvidia/gpu-operator $HELM_OPTIONS \
