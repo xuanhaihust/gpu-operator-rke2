@@ -3,8 +3,10 @@
 Install GPU-operator docs from Nvidia: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html
 
 ## Guide:
-### Step 1: Install K8s Cluster with RKE2 using install-rke-guide.docx or Rancher, or follow [official guide](https://ranchermanager.docs.rancher.com/v2.5/how-to-guides/new-user-guides/kubernetes-cluster-setup/rke2-for-rancher)
-### Step 2: Create containerd GPU config file `/var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl` on each node
+### Step 1: 
+Install K8s Cluster with RKE2 using install-rke-guide.docx or Rancher, or follow [official guide](https://ranchermanager.docs.rancher.com/v2.5/how-to-guides/new-user-guides/kubernetes-cluster-setup/rke2-for-rancher)
+### Step 2: 
+Create containerd GPU config file `/var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl` on each node
 ```
 version = 2
 [plugins]
@@ -28,8 +30,8 @@ Then restart rke2 on all nodes
   + worker node: `systemctl restart rke2-agent.service`
 ### Step 3: 
 Run this command to install GPU Operator:
-
-```helm install -n gpu-operator --create-namespace \
+```
+helm install -n gpu-operator --create-namespace \
   nvidia/gpu-operator $HELM_OPTIONS \
     --set toolkit.env[0].name=CONTAINERD_CONFIG \
     --set toolkit.env[0].value=/var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl \
