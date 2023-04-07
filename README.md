@@ -3,9 +3,30 @@
 Install GPU-operator docs from Nvidia: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html
 
 ## Guide:
-- Step 1: Install K8s Cluster with RKE2 using install-rke-guide.docx or using Rancher.
-- Step 2: Create containerd GPU config.toml.tmpl file on each nodes and restart rke2 (follow install-rke-guide.docx)
-- Step 3: run this command to install GPU Operator: 
+- Step 1: Install K8s Cluster with RKE2 using install-rke-guide.docx or Rancher, or follow [official guide](https://ranchermanager.docs.rancher.com/v2.5/how-to-guides/new-user-guides/kubernetes-cluster-setup/rke2-for-rancher)
+- Step 2: Create containerd GPU config file `/var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl` on all node on each nodes
+```
+version = 2
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    enable_selinux = false 
+    sandbox_image = "index.docker.io/rancher/pause:3.6" 
+    stream_server_address = "127.0.0.1" 
+    stream_server_port = "10010"
+
+    [plugins."io.containerd.grpc.v1.cri".containerd] 
+      disable_snapshot_annotations = true 
+      snapshotter = "overlayfs" 
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes] 
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc] 
+          runtime_type = "io.containerd.runc.v2
+  [plugins."io.containerd.internal.v1.opt"] 
+    path = "/data/rancher/rke2/agent/containerd"
+```
+Then restart rke2 on all nodes 
+  + master node: `systemctl restart rke2-server.service`
+  + worker node: `systemctl restart rke2-agent.service`
+- Step 4: run this command to install GPU Operator: 
 ```helm install -n gpu-operator --create-namespace \
   nvidia/gpu-operator $HELM_OPTIONS \
     --set toolkit.env[0].name=CONTAINERD_CONFIG \
